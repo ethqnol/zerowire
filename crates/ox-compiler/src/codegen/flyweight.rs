@@ -63,10 +63,17 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
             TypeIR::String => {
                 getters.push(format!(
                     r#"  get {name}() {{
+    if (this._{name} !== undefined) return this._{name};
     const off = this._view.getUint32(this._offset + {off}, true);
     const len = this._view.getUint32(this._offset + {off_len}, true);
-    if (len === 0) return "";
+    if (len === 0) return (this._{name} = "");
     const start = this._offset + off;
+    if (len <= 4) {{
+      if (len === 1) return (this._{name} = String.fromCharCode(this._u8[start]));
+      if (len === 2) return (this._{name} = String.fromCharCode(this._u8[start], this._u8[start + 1]));
+      if (len === 3) return (this._{name} = String.fromCharCode(this._u8[start], this._u8[start + 1], this._u8[start + 2]));
+      return (this._{name} = String.fromCharCode(this._u8[start], this._u8[start + 1], this._u8[start + 2], this._u8[start + 3]));
+    }}
     if (len < 48) {{
       let isAscii = true;
       let i = 0;
@@ -92,10 +99,10 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
         for (let j = 0; j < len; j++) {{
           s += String.fromCharCode(this._u8[start + j]);
         }}
-        return s;
+        return (this._{name} = s);
       }}
     }}
-    return _sharedTextDecoder.decode(new Uint8Array(this._view.buffer, this._view.byteOffset + start, len));
+    return (this._{name} = _sharedTextDecoder.decode(new Uint8Array(this._view.buffer, this._view.byteOffset + start, len)));
   }}"#,
                     off_len = off + 4
                 ));
@@ -105,9 +112,10 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
                     TypeIR::Primitive(PrimitiveType::F64) => {
                         getters.push(format!(
                             r#"  get {name}() {{
+    if (this._{name} !== undefined) return this._{name};
     const off = this._view.getUint32(this._offset + {off}, true);
     const count = this._view.getUint32(this._offset + {off_cnt}, true);
-    return new Float64Array(this._view.buffer, this._view.byteOffset + this._offset + off, count);
+    return (this._{name} = new Float64Array(this._view.buffer, this._view.byteOffset + this._offset + off, count));
   }}"#,
                             off_cnt = off + 4
                         ));
@@ -115,9 +123,10 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
                     TypeIR::Primitive(PrimitiveType::U32) => {
                         getters.push(format!(
                             r#"  get {name}() {{
+    if (this._{name} !== undefined) return this._{name};
     const off = this._view.getUint32(this._offset + {off}, true);
     const count = this._view.getUint32(this._offset + {off_cnt}, true);
-    return new Uint32Array(this._view.buffer, this._view.byteOffset + this._offset + off, count);
+    return (this._{name} = new Uint32Array(this._view.buffer, this._view.byteOffset + this._offset + off, count));
   }}"#,
                             off_cnt = off + 4
                         ));
@@ -125,9 +134,10 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
                     TypeIR::Primitive(PrimitiveType::U8) => {
                         getters.push(format!(
                             r#"  get {name}() {{
+    if (this._{name} !== undefined) return this._{name};
     const off = this._view.getUint32(this._offset + {off}, true);
     const count = this._view.getUint32(this._offset + {off_cnt}, true);
-    return new Uint8Array(this._view.buffer, this._view.byteOffset + this._offset + off, count);
+    return (this._{name} = new Uint8Array(this._view.buffer, this._view.byteOffset + this._offset + off, count));
   }}"#,
                             off_cnt = off + 4
                         ));
@@ -136,9 +146,10 @@ pub fn emit_flyweight_class(struct_ir: &StructIR) -> String {
                         // General array descriptor
                         getters.push(format!(
                             r#"  get {name}() {{
+    if (this._{name} !== undefined) return this._{name};
     const off = this._view.getUint32(this._offset + {off}, true);
     const count = this._view.getUint32(this._offset + {off_cnt}, true);
-    return {{ offset: this._offset + off, count }};
+    return (this._{name} = {{ offset: this._offset + off, count }});
   }}"#,
                             off_cnt = off + 4
                         ));
