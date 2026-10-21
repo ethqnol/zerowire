@@ -72,6 +72,7 @@
           <li class="sidebar-link"><a href="#http-guide">HTTP Request Validation</a></li>
           <li class="sidebar-link"><a href="#worker-guide">Worker Thread Messaging</a></li>
           <li class="sidebar-link"><a href="#flyweight">Flyweight Proxy Views</a></li>
+          <li class="sidebar-link"><a href="#data-access">Data Access and Mutation</a></li>
           <li class="sidebar-link"><a href="#encoding">Binary Serialization</a></li>
           <li class="sidebar-link"><a href="#visualizer">Memory Layout Visualizer</a></li>
           <li class="sidebar-link"><a href="#mphf">Minimal Perfect Hashing</a></li>
@@ -316,6 +317,129 @@ worker.postMessage(binaryPayload.buffer, [binaryPayload.buffer]);</code></pre>
   <span class="kw">const</span> val = sharedDecoder.decode(<span class="kw">this</span>._bytes.subarray(off, off + len));
   Object.defineProperty(<span class="kw">this</span>, <span class="str">"symbol"</span>, { value: val });
   <span class="kw">return</span> val;
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Data Access and Mutation -->
+      <section class="doc-section" id="data-access">
+        <h2 class="section-heading"><a href="#data-access">Accessing and Mutating Encoded Data</a></h2>
+        <p class="section-text">
+          Because zerowire codecs operate directly over contiguous, aligned byte buffers, you have full control over reading, iterating, and mutating payloads in memory.
+        </p>
+
+        <h3 class="section-subheading">Reading Fixed Primitives vs Dynamic Slices</h3>
+        <p class="section-text">
+          Fixed-width numbers and booleans are loaded in a single CPU instruction directly from the underlying <code>DataView</code>. Strings and arrays decode on demand:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/reading-fields.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { TradeExecutionCodec } <span class="kw">from</span> <span class="str">"./schema"</span>;
+
+<span class="kw">const</span> trade = TradeExecutionCodec.validateAndView(wireBuffer);
+<span class="kw">if</span> (trade) {
+  <span class="cm">// 1. Immediate unboxed reads from fixed byte offsets (0 heap allocation):</span>
+  <span class="kw">const</span> ts = trade.timestamp;  <span class="cm">// f64 at byte 0</span>
+  <span class="kw">const</span> id = trade.tradeId;    <span class="cm">// u32 at byte 8</span>
+  <span class="kw">const</span> side = trade.side;      <span class="cm">// "BUY" | "SELL" at byte 28</span>
+
+  <span class="cm">// 2. Lazy dynamic slices: decoded on first access, then memoized</span>
+  <span class="kw">const</span> symbol = trade.symbol; <span class="cm">// e.g. "BTC-USDT"</span>
+
+  <span class="cm">// 3. Dynamic arrays: read length and elements with standard indexing</span>
+  <span class="kw">const</span> fills = trade.fills;   <span class="cm">// Array of f64 prices</span>
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; fills.length; i++) {
+    console.log(<span class="str">`Fill #${i}:`</span>, fills[i]);
+  }
+}</code></pre>
+        </div>
+
+        <h3 class="section-subheading">In-Place Buffer Mutation Without Re-Encoding</h3>
+        <p class="section-text">
+          In high-frequency relay servers, updating a timestamp or order status does not require serializing a brand-new buffer. You can mutate the buffer in place directly via its underlying <code>DataView</code>:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/in-place-update.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="cm">// Given an existing binary wire buffer</span>
+<span class="kw">const</span> buffer = TradeExecutionCodec.encodeBinary(tradeData);
+<span class="kw">const</span> view = <span class="kw">new</span> DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+
+<span class="cm">// Mutate the timestamp (byte offset 0) in place with zero allocation</span>
+view.setFloat64(0, Date.now(), <span class="kw">true</span>);
+
+<span class="cm">// Mutate the tradeId (byte offset 8)</span>
+view.setUint32(8, 99999, <span class="kw">true</span>);
+
+<span class="cm">// Forward the mutated buffer directly over WebSocket or UDP socket</span>
+socket.send(buffer);</code></pre>
+        </div>
+
+        <h3 class="section-subheading">Zero-Copy WebSocket Relay and Forwarding</h3>
+        <p class="section-text">
+          Broadcast servers and proxies can inspect header fields for routing and re-broadcast the exact same byte slice without decoding JSON or recreating objects:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/relay-server.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { WebSocketServer } <span class="kw">from</span> <span class="str">"ws"</span>;
+<span class="kw">import</span> { TradeExecutionCodec } <span class="kw">from</span> <span class="str">"./schema"</span>;
+
+<span class="kw">const</span> wss = <span class="kw">new</span> WebSocketServer({ port: 8080 });
+
+wss.on(<span class="str">"connection"</span>, (ws) =&gt; {
+  ws.on(<span class="str">"message"</span>, (rawBinary: <span class="tp">Buffer</span>) =&gt; {
+    <span class="cm">// 1. Validate incoming binary packet in ~5 nanoseconds</span>
+    <span class="kw">const</span> trade = TradeExecutionCodec.validateAndView(rawBinary);
+    <span class="kw">if</span> (!trade) <span class="kw">return</span>;
+
+    <span class="cm">// 2. Inspect filter condition without touching string fields</span>
+    <span class="kw">if</span> (trade.side === <span class="str">"BUY"</span>) {
+      <span class="cm">// 3. Broadcast the exact binary buffer slice to downstream clients</span>
+      <span class="kw">for</span> (<span class="kw">const</span> client <span class="kw">of</span> wss.clients) {
+        <span class="kw">if</span> (client.readyState === ws.OPEN) {
+          client.send(rawBinary);
+        }
+      }
+    }
+  });
+});</code></pre>
+        </div>
+
+        <h3 class="section-subheading">Converting to Plain Objects When Necessary</h3>
+        <p class="section-text">
+          If legacy code or logging requires standard JavaScript plain objects, extract all fields or serialize to JSON:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/convert-plain.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">const</span> trade = TradeExecutionCodec.validateAndView(rawBytes);
+
+<span class="kw">if</span> (trade) {
+  <span class="cm">// Spread or construct a regular object for third-party consumers</span>
+  <span class="kw">const</span> plainObject = {
+    timestamp: trade.timestamp,
+    tradeId: trade.tradeId,
+    side: trade.side,
+    isMaker: trade.isMaker,
+    symbol: trade.symbol,
+    fills: Array.from(trade.fills),
+  };
+
+  console.log(JSON.stringify(plainObject));
 }</code></pre>
         </div>
       </section>

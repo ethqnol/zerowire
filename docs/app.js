@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { title: 'Worker Thread Guide', desc: 'Zero-copy messaging across threads with SharedArrayBuffer', href: '#worker-guide' },
     { title: 'Memory Layout Visualizer', desc: 'Interactive struct packing and alignment calculation', href: '#visualizer' },
     { title: 'Flyweight Views', desc: 'Lazy accessor memoization and unrolled short string decoding', href: '#flyweight' },
+    { title: 'Accessing and Mutating Data', desc: 'Reading primitives, dynamic slices, in-place updates, and WebSocket relays', href: '#data-access' },
     { title: 'Binary Encoding', desc: 'Single-pass serialization directly into typed binary buffers', href: '#encoding' },
     { title: 'Minimal Perfect Hashing', desc: 'O(1) variant and tagged union dispatch without string lookups', href: '#mphf' },
     { title: 'Bundler Setup', desc: 'Vite, Rolldown, Rollup, and esbuild integration', href: '#bundlers' },
