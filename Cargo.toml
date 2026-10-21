@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ox-compiler",
+    "crates/ox-wasm-simd",
+    "crates/ox-napi",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["oxbt contributors"]
+license = "MIT"
+repository = "https://github.com/oxbt/oxbt"
+
+[workspace.dependencies]
+oxc_parser = "0.155.0"
+oxc_allocator = "0.155.0"
+oxc_span = "0.155.0"
+oxc_ast = "0.155.0"
+oxc_diagnostics = "0.155.0"
+oxc_resolver = "11.24.3"
+rustc-hash = "2.1"
+indexmap = { version = "2.7", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+insta = { version = "1.42", features = ["yaml", "json"] }
+proptest = "1.6"

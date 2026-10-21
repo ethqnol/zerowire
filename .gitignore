@@ -1,0 +1,27 @@
+# Rust
+target/
+**/*.rs.bk
+*.pdb
+
+# Node / JS
+node_modules/
+dist/
+*.node
+*.tsbuildinfo
+.pnpm-debug.log*
+
+# WASM build outputs
+*.wasm
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Benchmarks & profiling
+bench-results/
+*.profdata
+*.profraw

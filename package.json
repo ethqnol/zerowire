@@ -1,0 +1,19 @@
+{
+  "name": "oxbt",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cargo build --workspace && pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "cargo clippy --workspace --all-targets -- -D warnings && cargo fmt --all -- --check",
+    "fmt": "cargo fmt --all",
+    "bench": "pnpm --filter @ox-wire/benchmarks bench"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  }
+}

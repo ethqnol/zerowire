@@ -1,0 +1,19 @@
+[package]
+name = "ox-napi"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "3.14.2", default-features = false, features = ["napi4", "serde-json"] }
+napi-derive = "3.6.12"
+ox-compiler = { path = "../ox-compiler" }
+serde.workspace = true
+serde_json.workspace = true
+
+[build-dependencies]
+napi-build = "2.1"

@@ -1,0 +1,6 @@
+packages:
+  - 'packages/*'
+  - 'crates/ox-napi'
+
+allowBuilds:
+  esbuild: true

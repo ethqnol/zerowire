@@ -1,0 +1,24 @@
+{
+  "name": "@ox-wire/runtime",
+  "version": "0.1.0",
+  "description": "Zero-dependency runtime for oxbt zero-copy flyweight views and buffer pools",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  }
+}

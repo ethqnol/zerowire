@@ -1,0 +1,14 @@
+{
+  "name": "@ox-wire/napi",
+  "version": "0.1.0",
+  "description": "N-API bindings for ox-compiler AOT TypeScript validator and binary codec",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.0.0"
+  }
+}

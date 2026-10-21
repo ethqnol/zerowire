@@ -1,0 +1,14 @@
+{
+  "name": "@ox-wire/benchmarks",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "node bench.js"
+  },
+  "dependencies": {
+    "@ox-wire/runtime": "workspace:*",
+    "mitata": "^1.0.34",
+    "zod": "^3.24.2"
+  }
+}
