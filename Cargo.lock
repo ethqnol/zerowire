@@ -1690,7 +1690,7 @@ dependencies = [
 
 [[package]]
 name = "zerowire-compiler"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "indexmap",
  "insta",
@@ -1709,7 +1709,7 @@ dependencies = [
 
 [[package]]
 name = "zerowire-napi"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "napi",
  "napi-build",
@@ -1721,7 +1721,7 @@ dependencies = [
 
 [[package]]
 name = "zerowire-wasm-simd"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "proptest",
 ]

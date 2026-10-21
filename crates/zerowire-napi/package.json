@@ -1,6 +1,6 @@
 {
   "name": "@zerowire/napi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "N-API bindings for zerowire AOT TypeScript validator and binary codec",
   "main": "index.js",
   "types": "index.d.ts",

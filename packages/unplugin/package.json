@@ -1,6 +1,6 @@
 {
   "name": "@zerowire/unplugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AOT build plugin for zerowire TypeScript validator and binary codec",
   "type": "module",
   "main": "./dist/index.js",

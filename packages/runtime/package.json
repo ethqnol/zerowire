@@ -1,6 +1,6 @@
 {
   "name": "@zerowire/runtime",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-dependency runtime for zerowire zero-copy flyweight views and buffer pools",
   "type": "module",
   "main": "./dist/index.js",
