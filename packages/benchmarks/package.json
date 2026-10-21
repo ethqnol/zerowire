@@ -7,6 +7,7 @@
     "bench": "node bench.js"
   },
   "dependencies": {
+    "@ox-wire/napi": "workspace:*",
     "@ox-wire/runtime": "workspace:*",
     "mitata": "^1.0.34",
     "zod": "^3.24.2"

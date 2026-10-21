@@ -163,10 +163,9 @@ pub fn emit_struct_serializer(struct_ir: &StructIR) -> String {
 
     format!(
         r#"{enum_decl}export function {fn_name}(obj, targetBuffer = null, baseOffset = 0) {{
-{dyn_calc_block}  const totalSize = {header_size} + (typeof tailOffset !== 'undefined' ? tailOffset : 0);
+{dyn_calc_block}  let tailOffset = {header_size};
   const u8 = targetBuffer instanceof Uint8Array ? targetBuffer : new Uint8Array(65536);
   const view = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
-  let tailOffset = {header_size};
 
 {fixed_writes}{dyn_write_block}
 

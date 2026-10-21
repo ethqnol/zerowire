@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "build": "cargo build --workspace && pnpm -r build",
-    "test": "pnpm -r test",
+    "test": "pnpm -r test && vitest run tests/",
+    "test:integration": "vitest run tests/",
     "typecheck": "pnpm -r typecheck",
     "lint": "cargo clippy --workspace --all-targets -- -D warnings && cargo fmt --all -- --check",
     "fmt": "cargo fmt --all",
     "bench": "pnpm --filter @ox-wire/benchmarks bench"
   },
   "devDependencies": {
+    "@ox-wire/napi": "workspace:*",
+    "@ox-wire/runtime": "workspace:*",
     "@types/node": "^22.13.0",
     "typescript": "^5.8.0",
     "vitest": "^3.0.0"

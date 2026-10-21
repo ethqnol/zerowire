@@ -11,14 +11,35 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
     core::arch::wasm32::unreachable()
 }
 
-/// Structural character bitmask indices or token indicators
-pub const TOKEN_QUOTE: u32 = 0x01;
-pub const TOKEN_COLON: u32 = 0x02;
-pub const TOKEN_COMMA: u32 = 0x03;
-pub const TOKEN_LBRACE: u32 = 0x04;
-pub const TOKEN_RBRACE: u32 = 0x05;
-pub const TOKEN_LBRACKET: u32 = 0x06;
-pub const TOKEN_RBRACKET: u32 = 0x07;
+pub mod scanner;
+
+pub use scanner::*;
+
+/// Exported C-ABI for JavaScript WASM instantiation.
+///
+/// Scans `buf_ptr[0..buf_len]` and writes structural tokens to `tape_ptr[0..max_tape]`.
+/// Returns the number of tape tokens written.
+///
+/// # Safety
+///
+/// Caller must ensure that:
+/// - `buf_ptr` points to a valid readable byte buffer of length `buf_len`.
+/// - `tape_ptr` points to a valid writable aligned `u32` buffer of length `max_tape`.
+#[no_mangle]
+pub unsafe extern "C" fn scan_json_structural(
+    buf_ptr: *const u8,
+    buf_len: usize,
+    tape_ptr: *mut u32,
+    max_tape: usize,
+) -> usize {
+    if buf_ptr.is_null() || tape_ptr.is_null() || buf_len == 0 || max_tape == 0 {
+        return 0;
+    }
+    // SAFETY: buf_ptr and tape_ptr are verified non-null, with valid lengths passed from caller.
+    let buf = core::slice::from_raw_parts(buf_ptr, buf_len);
+    let tape = core::slice::from_raw_parts_mut(tape_ptr, max_tape);
+    StructuralScanner::scan(buf, tape)
+}
 
 #[no_mangle]
 pub extern "C" fn simd_version() -> u32 {

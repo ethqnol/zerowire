@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@ox-wire/napi':
+        specifier: workspace:*
+        version: link:crates/ox-napi
+      '@ox-wire/runtime':
+        specifier: workspace:*
+        version: link:packages/runtime
       '@types/node':
         specifier: ^22.13.0
         version: 22.20.5
@@ -26,6 +32,9 @@ importers:
 
   packages/benchmarks:
     dependencies:
+      '@ox-wire/napi':
+        specifier: workspace:*
+        version: link:../../crates/ox-napi
       '@ox-wire/runtime':
         specifier: workspace:*
         version: link:../runtime
