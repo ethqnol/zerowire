@@ -175,10 +175,7 @@ pub fn generate_layout_diagram(layout: &StructIR) -> String {
                 writeln!(
                     &mut out,
                     "{:<14}{:<17}{:<29}{}B",
-                    offset_str,
-                    f.name,
-                    type_desc,
-                    f.size
+                    offset_str, f.name, type_desc, f.size
                 )
                 .unwrap();
             }
@@ -191,10 +188,7 @@ pub fn generate_layout_diagram(layout: &StructIR) -> String {
                 writeln!(
                     &mut out,
                     "{:<14}{:<17}{:<29}{}B",
-                    offset_str,
-                    "<padding>",
-                    "Zero-filled alignment pad",
-                    len
+                    offset_str, "<padding>", "Zero-filled alignment pad", len
                 )
                 .unwrap();
             }

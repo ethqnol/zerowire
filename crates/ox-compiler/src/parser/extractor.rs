@@ -86,20 +86,18 @@ impl AstTypeContext {
             Statement::TSTypeAliasDeclaration(alias) => {
                 self.extract_type_alias(alias)?;
             }
-            Statement::ExportDeclaration(export_decl) => {
-                match &export_decl.declaration {
-                    Declaration::TSInterfaceDeclaration(itf) => {
-                        self.extract_interface(itf)?;
-                    }
-                    Declaration::TSTypeAliasDeclaration(alias) => {
-                        self.extract_type_alias(alias)?;
-                    }
-                    Declaration::VariableDeclaration(var_decl) => {
-                        self.extract_variable_declaration(var_decl)?;
-                    }
-                    _ => {}
+            Statement::ExportDeclaration(export_decl) => match &export_decl.declaration {
+                Declaration::TSInterfaceDeclaration(itf) => {
+                    self.extract_interface(itf)?;
                 }
-            }
+                Declaration::TSTypeAliasDeclaration(alias) => {
+                    self.extract_type_alias(alias)?;
+                }
+                Declaration::VariableDeclaration(var_decl) => {
+                    self.extract_variable_declaration(var_decl)?;
+                }
+                _ => {}
+            },
             Statement::VariableDeclaration(var_decl) => {
                 self.extract_variable_declaration(var_decl)?;
             }
@@ -113,23 +111,20 @@ impl AstTypeContext {
         var_decl: &VariableDeclaration<'a>,
     ) -> Result<(), CompileError> {
         for declarator in &var_decl.declarations {
-            if let Some(init) = &declarator.init {
-                if let Expression::CallExpression(call) = init {
-                    if let Expression::Identifier(ident) = &call.callee {
-                        if ident.name == "compileWireCodec"
-                            || ident.name == "compileCodec"
-                            || ident.name == "createFlyweight"
-                        {
-                            if let Some(type_args) = &call.type_arguments {
-                                if let Some(first_param) = type_args.params.first() {
-                                    if let TSType::TSTypeReference(type_ref) = first_param {
-                                        if let TSTypeName::IdentifierReference(type_ident) =
-                                            &type_ref.type_name
-                                        {
-                                            self.macro_target_type =
-                                                Some(type_ident.name.to_string());
-                                        }
-                                    }
+            if let Some(Expression::CallExpression(call)) = &declarator.init {
+                if let Expression::Identifier(ident) = &call.callee {
+                    if ident.name == "compileWireCodec"
+                        || ident.name == "compileCodec"
+                        || ident.name == "createFlyweight"
+                    {
+                        if let Some(type_args) = &call.type_arguments {
+                            if let Some(TSType::TSTypeReference(type_ref)) =
+                                type_args.params.first()
+                            {
+                                if let TSTypeName::IdentifierReference(type_ident) =
+                                    &type_ref.type_name
+                                {
+                                    self.macro_target_type = Some(type_ident.name.to_string());
                                 }
                             }
                         }
@@ -140,7 +135,10 @@ impl AstTypeContext {
         Ok(())
     }
 
-    fn extract_interface<'a>(&mut self, itf: &TSInterfaceDeclaration<'a>) -> Result<(), CompileError> {
+    fn extract_interface<'a>(
+        &mut self,
+        itf: &TSInterfaceDeclaration<'a>,
+    ) -> Result<(), CompileError> {
         let name = itf.id.name.to_string();
         let mut fields = Vec::new();
 
@@ -166,7 +164,10 @@ impl AstTypeContext {
         Ok(())
     }
 
-    fn extract_type_alias<'a>(&mut self, alias: &TSTypeAliasDeclaration<'a>) -> Result<(), CompileError> {
+    fn extract_type_alias<'a>(
+        &mut self,
+        alias: &TSTypeAliasDeclaration<'a>,
+    ) -> Result<(), CompileError> {
         let name = alias.id.name.to_string();
         let raw = self.extract_type_alias_body(&alias.type_annotation)?;
         self.raw_aliases.insert(name, raw);
@@ -255,7 +256,9 @@ impl AstTypeContext {
                                     if let Some(annot) = &p.type_annotation {
                                         if let TSType::TSLiteralType(lit) = &annot.type_annotation {
                                             if let TSLiteral::StringLiteral(s) = &lit.literal {
-                                                brand_tag = Some(s.value.as_str().unwrap_or("").to_string());
+                                                brand_tag = Some(
+                                                    s.value.as_str().unwrap_or("").to_string(),
+                                                );
                                             }
                                         }
                                     }
@@ -268,11 +271,10 @@ impl AstTypeContext {
                     if let TSTypeName::IdentifierReference(ident) = &type_ref.type_name {
                         if ident.name == "Brand" {
                             if let Some(args) = &type_ref.type_arguments {
-                                if let Some(first) = args.params.first() {
-                                    if let TSType::TSLiteralType(lit) = first {
-                                        if let TSLiteral::StringLiteral(s) = &lit.literal {
-                                            brand_tag = Some(s.value.as_str().unwrap_or("").to_string());
-                                        }
+                                if let Some(TSType::TSLiteralType(lit)) = args.params.first() {
+                                    if let TSLiteral::StringLiteral(s) = &lit.literal {
+                                        brand_tag =
+                                            Some(s.value.as_str().unwrap_or("").to_string());
                                     }
                                 }
                             }

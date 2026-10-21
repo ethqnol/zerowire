@@ -254,7 +254,13 @@ mod tests {
 
     #[test]
     fn test_mphf_order_types() {
-        let keys = ["LIMIT", "MARKET", "STOP_LOSS", "TAKE_PROFIT", "TRAILING_STOP"];
+        let keys = [
+            "LIMIT",
+            "MARKET",
+            "STOP_LOSS",
+            "TAKE_PROFIT",
+            "TRAILING_STOP",
+        ];
         let table = synthesize_mphf(&keys).expect("MPHF synthesis should succeed");
 
         for &k in &keys {

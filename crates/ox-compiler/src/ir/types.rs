@@ -226,12 +226,20 @@ pub struct DiscriminatedUnionIR {
 impl DiscriminatedUnionIR {
     /// Maximum alignment among all variants.
     pub fn alignment(&self) -> u32 {
-        self.variants.values().map(|v| v.alignment).max().unwrap_or(8)
+        self.variants
+            .values()
+            .map(|v| v.alignment)
+            .max()
+            .unwrap_or(8)
     }
 
     /// Maximum fixed header size among all variants.
     pub fn fixed_size(&self) -> u32 {
-        self.variants.values().map(|v| v.fixed_size).max().unwrap_or(0)
+        self.variants
+            .values()
+            .map(|v| v.fixed_size)
+            .max()
+            .unwrap_or(0)
     }
 
     /// Whether any variant has dynamic elements.

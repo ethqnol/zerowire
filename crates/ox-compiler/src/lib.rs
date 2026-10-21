@@ -2,6 +2,7 @@
 //!
 //! Powered by `oxc_parser`, `oxc_resolver`, and `oxc_span`.
 
+pub mod codegen;
 pub mod error;
 pub mod ir;
 pub mod layout;
