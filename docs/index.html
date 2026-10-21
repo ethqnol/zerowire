@@ -3,42 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>zerowire - Ahead-of-Time TypeScript Binary Codec and Validator</title>
-  <meta name="description" content="Eliminate JSON.parse and V8 heap allocation overhead. Compile TypeScript interfaces into branchless DataView validators and zero-copy flyweight proxy views.">
+  <title>zerowire - Ahead-of-Time TypeScript Binary Codec</title>
+  <meta name="description" content="Ahead-of-Time TypeScript-to-wire compiler and zero-copy binary codec. Eliminate JSON.parse and V8 heap allocation overhead.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div class="bg-glow"></div>
-
   <!-- Header -->
   <header class="site-header">
     <a href="#" class="brand">
-      <div class="brand-logo">
+      <div class="brand-icon">
         <svg viewBox="0 0 24 24">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
       </div>
-      <span class="brand-name">zerowire</span>
-      <span class="brand-badge">v0.1.0</span>
+      <span class="brand-title">zerowire</span>
+      <span class="brand-version">v0.1.0</span>
     </a>
 
-    <div class="header-actions">
-      <button class="search-trigger" id="btn-search-trigger" aria-label="Search documentation">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <div class="header-right">
+      <button class="search-btn" id="btn-search-trigger" aria-label="Search documentation">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <span>Search documentation...</span>
-        <span class="search-shortcut">Ctrl K</span>
+        <span>Search docs</span>
+        <span class="search-kbd">Ctrl K</span>
       </button>
 
       <ul class="nav-links">
         <li>
           <a href="https://github.com/ethqnol/zerowire" target="_blank" rel="noopener noreferrer" class="nav-link">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
             <span>GitHub</span>
@@ -54,68 +52,63 @@
   </header>
 
   <!-- Container -->
-  <div class="app-container">
+  <div class="page-container">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div>
-        <div class="sidebar-group-title">Getting Started</div>
-        <ul class="sidebar-menu">
-          <li class="sidebar-item active"><a href="#overview">Overview</a></li>
-          <li class="sidebar-item"><a href="#benchmarks">Benchmarks</a></li>
-          <li class="sidebar-item"><a href="#features">Core Features</a></li>
-          <li class="sidebar-item"><a href="#installation">Installation</a></li>
+        <div class="sidebar-category">Getting Started</div>
+        <ul class="sidebar-links">
+          <li class="sidebar-link active"><a href="#overview">Overview</a></li>
+          <li class="sidebar-link"><a href="#quickstart">Quick Start</a></li>
+          <li class="sidebar-link"><a href="#installation">Installation</a></li>
+          <li class="sidebar-link"><a href="#features">Core Features</a></li>
+          <li class="sidebar-link"><a href="#benchmarks">Benchmarks</a></li>
         </ul>
       </div>
 
       <div>
-        <div class="sidebar-group-title">Architecture</div>
-        <ul class="sidebar-menu">
-          <li class="sidebar-item"><a href="#visualizer">Memory Layout Visualizer</a></li>
-          <li class="sidebar-item"><a href="#quickstart">Quick Start</a></li>
-          <li class="sidebar-item"><a href="#flyweight">Flyweight Views</a></li>
-          <li class="sidebar-item"><a href="#encoding">Binary Serialization</a></li>
-          <li class="sidebar-item"><a href="#mphf">Minimal Perfect Hash</a></li>
-          <li class="sidebar-item"><a href="#simd">WASM SIMD Tokenizer</a></li>
+        <div class="sidebar-category">Guides</div>
+        <ul class="sidebar-links">
+          <li class="sidebar-link"><a href="#http-guide">HTTP Request Validation</a></li>
+          <li class="sidebar-link"><a href="#worker-guide">Worker Thread Messaging</a></li>
+          <li class="sidebar-link"><a href="#flyweight">Flyweight Proxy Views</a></li>
+          <li class="sidebar-link"><a href="#encoding">Binary Serialization</a></li>
+          <li class="sidebar-link"><a href="#visualizer">Memory Layout Visualizer</a></li>
+          <li class="sidebar-link"><a href="#mphf">Minimal Perfect Hashing</a></li>
         </ul>
       </div>
 
       <div>
-        <div class="sidebar-group-title">Tooling and Ecosystem</div>
-        <ul class="sidebar-menu">
-          <li class="sidebar-item"><a href="#bundlers">Bundler Setup</a></li>
-          <li class="sidebar-item"><a href="#packages">Workspace Packages</a></li>
-          <li class="sidebar-item"><a href="#verification">Verification</a></li>
+        <div class="sidebar-category">Integration</div>
+        <ul class="sidebar-links">
+          <li class="sidebar-link"><a href="#bundlers">Bundler Configuration</a></li>
+          <li class="sidebar-link"><a href="#packages">Workspace Packages</a></li>
+          <li class="sidebar-link"><a href="#verification">Verification</a></li>
         </ul>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
+    <!-- Content -->
+    <main class="content">
       <!-- Hero -->
-      <section class="hero-section" id="hero">
-        <div class="hero-pill">
-          <span class="dot"></span>
-          <span>Ahead-of-Time TypeScript Binary Codec</span>
-        </div>
-        <h1 class="hero-title">
-          Zero-allocation validation.<br>
-          <span class="gradient-text">Zero JSON.parse overhead.</span>
-        </h1>
+      <section class="hero" id="hero">
+        <div class="hero-tag">AOT TypeScript Binary Codec</div>
+        <h1 class="hero-title">Ahead-of-Time TypeScript to Wire Codec</h1>
         <p class="hero-subtitle">
-          zerowire compiles static TypeScript interfaces into branchless DataView validators, Minimal Perfect Hash jump tables, and lazy flyweight proxy views. Powered by Rust, Oxc AST parsing, and WebAssembly SIMD.
+          zerowire compiles static TypeScript interfaces into branchless DataView validators, Minimal Perfect Hash tables, and lazy flyweight proxy views. Eliminates JSON.parse overhead and heap allocation on high-throughput paths.
         </p>
 
-        <div class="install-bar">
+        <div class="install-box">
           <div class="install-tabs">
-            <button class="install-tab active" data-pm="pnpm">pnpm</button>
-            <button class="install-tab" data-pm="npm">npm</button>
-            <button class="install-tab" data-pm="yarn">yarn</button>
-            <button class="install-tab" data-pm="bun">bun</button>
+            <button class="install-tab-btn active" data-pm="pnpm">pnpm</button>
+            <button class="install-tab-btn" data-pm="npm">npm</button>
+            <button class="install-tab-btn" data-pm="yarn">yarn</button>
+            <button class="install-tab-btn" data-pm="bun">bun</button>
           </div>
-          <div class="install-cmd-box">
-            <code class="install-cmd" id="install-cmd-text">pnpm add @zerowire/runtime && pnpm add -D @zerowire/unplugin</code>
-            <button class="copy-btn" id="btn-copy-install" data-copy-target="install-cmd-text" aria-label="Copy install command">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="install-body">
+            <code class="install-snippet" id="install-cmd-text">pnpm add @zerowire/runtime && pnpm add -D @zerowire/unplugin</code>
+            <button class="btn-copy" id="btn-copy-install" data-copy-target="install-cmd-text" aria-label="Copy install command">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
@@ -125,167 +118,315 @@
         </div>
       </section>
 
-      <!-- Overview Section -->
+      <!-- Overview -->
       <section class="doc-section" id="overview">
-        <h2 class="section-title"><a href="#overview">Overview</a></h2>
-        <p class="section-desc">
-          Every major validation library in JavaScript operates after incoming wire data has already been deserialized via <code>JSON.parse()</code>. zerowire operates directly on raw <code>Uint8Array</code> or <code>ArrayBuffer</code> payloads.
+        <h2 class="section-heading"><a href="#overview">Overview</a></h2>
+        <p class="section-text">
+          Traditional validation libraries such as Zod, Valibot, or ArkType parse wire JSON into dynamic JavaScript objects before inspecting fields. In high-frequency Node.js, Bun, or Cloudflare Worker servers, this causes two critical bottlenecks:
+        </p>
+        <p class="section-text">
+          1. <strong>Eager heap allocation:</strong> Allocating V8 hidden classes, arrays, and strings for every single field in a payload, even if only a small subset of fields are inspected.<br>
+          2. <strong>Garbage collection spikes:</strong> Thousands of transient heap objects per second triggering V8 Scavenge pauses and tail latency spikes.<br>
+          3. <strong>Branch misprediction:</strong> Deeply nested conditional validation trees flushing CPU pipelines under polymorphic loads.
+        </p>
+        <p class="section-text">
+          zerowire solves this by extracting TypeScript types at build time using the native Rust <code>oxc_parser</code> and compiling them into flat, branchless byte checkers and lazy DataView proxy views. Unread fields never allocate a single byte on the V8 heap.
         </p>
 
-        <div class="cards-grid">
-          <div class="card">
-            <div class="card-icon cyan">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-              </svg>
-            </div>
-            <div class="card-title">Zero Eager Heap Allocation</div>
-            <div class="card-text">
-              Validation executes directly over byte slices. String and array materialization is deferred until fields are actually read.
-            </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-title">Zero Eager Allocation</div>
+            <div class="feature-desc">Validation operates directly over raw Uint8Array slices without allocating JavaScript objects.</div>
           </div>
-
-          <div class="card">
-            <div class="card-icon purple">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="16 18 22 12 16 6"/>
-                <polyline points="8 6 2 12 8 18"/>
-              </svg>
-            </div>
-            <div class="card-title">No tsc Dependency</div>
-            <div class="card-text">
-              AST parsing and type lowering execute at native speed in Rust using Oxc crates, without monkey-patching tsconfig.
-            </div>
+          <div class="feature-item">
+            <div class="feature-title">No tsc Dependency</div>
+            <div class="feature-desc">All type extraction and AST analysis run in native Rust via Oxc crates without ts-patch or compiler API lag.</div>
           </div>
-
-          <div class="card">
-            <div class="card-icon green">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-                <line x1="6" y1="6" x2="6.01" y2="6"/>
-                <line x1="6" y1="18" x2="6.01" y2="18"/>
-              </svg>
-            </div>
-            <div class="card-title">Branchless CPU Speculation</div>
-            <div class="card-text">
-              Fixed headers accumulate error bits via bitwise OR and XOR operations, eliminating branch mispredictions on hot paths.
-            </div>
+          <div class="feature-item">
+            <div class="feature-title">Branchless Validation</div>
+            <div class="feature-desc">Accumulates field integrity bitwise across struct headers, branching once at the end of the header block.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-title">Automatic Struct Packing</div>
+            <div class="feature-desc">Sorts fields by descending alignment (8B -> 4B -> 2B -> 1B) to guarantee zero interior padding holes.</div>
           </div>
         </div>
       </section>
 
-      <!-- Benchmarks Section -->
+      <!-- Quick Start -->
+      <section class="doc-section" id="quickstart">
+        <h2 class="section-heading"><a href="#quickstart">Quick Start</a></h2>
+        <p class="section-text">
+          Using zerowire requires two steps: defining your schema with physical types, and calling <code>compileWireCodec&lt;T&gt;()</code>.
+        </p>
+
+        <h3 class="section-subheading">Step 1. Define Your Schema</h3>
+        <p class="section-text">
+          Use standard TypeScript interface syntax. Import physical branded types (such as <code>u32</code> or <code>f64</code>) from <code>@zerowire/runtime</code> to specify memory widths:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/schema.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { compileWireCodec, <span class="kw">type</span> <span class="tp">u32</span>, <span class="kw">type</span> <span class="tp">f64</span> } <span class="kw">from</span> <span class="str">"@zerowire/runtime"</span>;
+
+<span class="kw">export interface</span> <span class="tp">TradeExecution</span> {
+  timestamp: <span class="tp">f64</span>;         <span class="cm">// 8-byte IEEE-754 float</span>
+  tradeId: <span class="tp">u32</span>;           <span class="cm">// 4-byte unsigned integer</span>
+  side: <span class="str">"BUY"</span> | <span class="str">"SELL"</span>;   <span class="cm">// 1-byte enum (0 or 1)</span>
+  isMaker: <span class="tp">boolean</span>;       <span class="cm">// 1-byte boolean (0 or 1)</span>
+  symbol: <span class="tp">string</span>;         <span class="cm">// Dynamic UTF-8 slice (8-byte header descriptor)</span>
+  fills: <span class="tp">f64</span>[];           <span class="cm">// Dynamic array (8-byte header descriptor)</span>
+}
+
+<span class="cm">// Replaced at build time by @zerowire/unplugin with the compiled codec class</span>
+<span class="kw">export const</span> TradeExecutionCodec = compileWireCodec&lt;<span class="tp">TradeExecution</span>&gt;();</code></pre>
+        </div>
+
+        <h3 class="section-subheading">Step 2. Validate and Access Wire Data</h3>
+        <p class="section-text">
+          When binary or JSON payloads arrive over a socket or HTTP request, call <code>validateAndView(rawBytes)</code>:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/consumer.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { TradeExecutionCodec } <span class="kw">from</span> <span class="str">"./schema"</span>;
+
+<span class="kw">function</span> <span class="fn">handleIncomingPayload</span>(rawBytes: <span class="tp">Uint8Array</span>) {
+  <span class="cm">// Validates buffer bounds and struct fields in ~5 nanoseconds</span>
+  <span class="kw">const</span> trade = TradeExecutionCodec.validateAndView(rawBytes);
+
+  <span class="kw">if</span> (!trade) {
+    <span class="kw">throw new</span> Error(<span class="str">"Corrupted or invalid payload"</span>);
+  }
+
+  <span class="cm">// Primitives read directly from fixed DataView byte offsets</span>
+  console.log(trade.timestamp, trade.tradeId, trade.side);
+
+  <span class="cm">// String and array getters decode lazily on first access and memoize</span>
+  console.log(trade.symbol);
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- HTTP Guide -->
+      <section class="doc-section" id="http-guide">
+        <h2 class="section-heading"><a href="#http-guide">HTTP Request Validation</a></h2>
+        <p class="section-text">
+          In web frameworks (Hono, Fastify, Express, or standard web fetch), avoid parsing incoming bodies as JSON strings. Instead, consume the raw <code>ArrayBuffer</code>:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/server.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { Hono } <span class="kw">from</span> <span class="str">"hono"</span>;
+<span class="kw">import</span> { TradeExecutionCodec } <span class="kw">from</span> <span class="str">"./schema"</span>;
+
+<span class="kw">const</span> app = <span class="kw">new</span> Hono();
+
+app.post(<span class="str">"/orders"</span>, <span class="kw">async</span> (c) =&gt; {
+  <span class="cm">// 1. Read raw byte stream directly into a Uint8Array</span>
+  <span class="kw">const</span> rawBuffer = <span class="kw">new</span> Uint8Array(<span class="kw">await</span> c.req.arrayBuffer());
+
+  <span class="cm">// 2. Validate without JSON.parse() overhead</span>
+  <span class="kw">const</span> order = TradeExecutionCodec.validateAndView(rawBuffer);
+  <span class="kw">if</span> (!order) {
+    <span class="kw">return</span> c.text(<span class="str">"Invalid payload structure"</span>, 400);
+  }
+
+  <span class="cm">// 3. Route or filter based on numeric fields with zero string decoding</span>
+  <span class="kw">if</span> (order.tradeId &gt; 100000 && order.side === <span class="str">"BUY"</span>) {
+    console.log(<span class="str">"Priority order received for"</span>, order.symbol);
+  }
+
+  <span class="kw">return</span> c.text(<span class="str">"OK"</span>, 200);
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- Worker Guide -->
+      <section class="doc-section" id="worker-guide">
+        <h2 class="section-heading"><a href="#worker-guide">Worker Thread Messaging</a></h2>
+        <p class="section-text">
+          Transferring structured objects between Node.js <code>worker_threads</code> or browser Web Workers usually invokes <code>structuredClone()</code>, duplicating the object graph.
+        </p>
+        <p class="section-text">
+          zerowire allows you to serialize an object into a flat <code>ArrayBuffer</code> or <code>SharedArrayBuffer</code> in a single pass. Both threads read and write memory directly without serialization overhead:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>src/worker-dispatch.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
+          </div>
+          <pre class="code-content"><code><span class="kw">import</span> { Worker } <span class="kw">from</span> <span class="str">"node:worker_threads"</span>;
+<span class="kw">import</span> { TradeExecutionCodec } <span class="kw">from</span> <span class="str">"./schema"</span>;
+
+<span class="cm">// 1. Single-pass binary serialization directly to a packed Uint8Array</span>
+<span class="kw">const</span> binaryPayload = TradeExecutionCodec.encodeBinary({
+  timestamp: Date.now(),
+  tradeId: 42000,
+  side: <span class="str">"BUY"</span>,
+  isMaker: <span class="kw">true</span>,
+  symbol: <span class="str">"ETH-USDT"</span>,
+  fills: [3500.5, 3501.0],
+});
+
+<span class="cm">// 2. Transfer buffer without structuredClone copying</span>
+worker.postMessage(binaryPayload.buffer, [binaryPayload.buffer]);</code></pre>
+        </div>
+      </section>
+
+      <!-- Flyweight Views -->
+      <section class="doc-section" id="flyweight">
+        <h2 class="section-heading"><a href="#flyweight">Flyweight Proxy Views</a></h2>
+        <p class="section-text">
+          The generated flyweight proxy class provides typed property access directly over an underlying <code>DataView</code>. It implements two micro-optimizations:
+        </p>
+        <p class="section-text">
+          1. <strong>Unrolled ASCII decoding:</strong> Short strings (4 bytes or fewer, such as currency codes, statuses, and tickers) decode via unrolled <code>String.fromCharCode</code> instructions, completely avoiding V8 C++ <code>TextDecoder</code> binding overhead.<br>
+          2. <strong>Lazy memoization:</strong> When a string or dynamic array getter is first evaluated, it defines a non-configurable property on the proxy instance. Subsequent reads become instant O(1) property lookups.
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>Generated Flyweight Getter Pattern</span>
+          </div>
+          <pre class="code-content"><code><span class="cm">// Short string (&lt;= 4 bytes) fast path emitted by zerowire</span>
+<span class="kw">get</span> symbol() {
+  <span class="kw">const</span> off = <span class="kw">this</span>._view.getUint32(<span class="num">12</span>, <span class="kw">true</span>);
+  <span class="kw">const</span> len = <span class="kw">this</span>._view.getUint32(<span class="num">16</span>, <span class="kw">true</span>);
+  <span class="kw">if</span> (len === <span class="num">3</span>) {
+    <span class="kw">const</span> val = String.fromCharCode(
+      <span class="kw">this</span>._bytes[off],
+      <span class="kw">this</span>._bytes[off + <span class="num">1</span>],
+      <span class="kw">this</span>._bytes[off + <span class="num">2</span>]
+    );
+    Object.defineProperty(<span class="kw">this</span>, <span class="str">"symbol"</span>, { value: val });
+    <span class="kw">return</span> val;
+  }
+  <span class="cm">// Fallback to shared TextDecoder for longer strings</span>
+  <span class="kw">const</span> val = sharedDecoder.decode(<span class="kw">this</span>._bytes.subarray(off, off + len));
+  Object.defineProperty(<span class="kw">this</span>, <span class="str">"symbol"</span>, { value: val });
+  <span class="kw">return</span> val;
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Benchmarks -->
       <section class="doc-section" id="benchmarks">
-        <h2 class="section-title"><a href="#benchmarks">Benchmarks</a></h2>
-        <p class="section-desc">
-          Measured with Mitata on Node.js v22 (x64-linux, AMD Ryzen AI 5) validating a MarketTick payload (f64 price, u32 volume, enum exchange, dynamic symbol string).
+        <h2 class="section-heading"><a href="#benchmarks">Benchmarks</a></h2>
+        <p class="section-text">
+          Measured on Node.js v22 (x64-linux, AMD Ryzen AI 5) using Mitata on a market tick payload (f64 price, u32 volume, enum exchange, dynamic symbol string):
         </p>
 
-        <div class="bench-container">
-          <div class="bench-header">
-            <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">Performance Comparison</div>
-            <div class="bench-tabs">
-              <button class="bench-tab active" data-metric="throughput">Throughput</button>
-              <button class="bench-tab" data-metric="latency">Latency</button>
-              <button class="bench-tab" data-metric="memory">Heap Allocations</button>
+        <div class="benchmark-card">
+          <div class="benchmark-top">
+            <div class="benchmark-title">Validation and Deserialization Performance</div>
+            <div class="benchmark-nav">
+              <button class="bench-nav-btn active" data-metric="throughput">Throughput</button>
+              <button class="bench-nav-btn" data-metric="latency">Latency</button>
+              <button class="bench-nav-btn" data-metric="memory">Heap Allocations</button>
             </div>
           </div>
 
-          <div class="bench-list">
-            <div class="bench-item">
-              <div class="bench-info">
-                <span class="bench-name">
+          <div class="benchmark-rows">
+            <div class="bench-row">
+              <div class="bench-row-header">
+                <span class="bench-label">
                   zerowire Binary Validation
-                  <span class="bench-badge win">366x faster</span>
+                  <span class="bench-pill">366x faster</span>
                 </span>
-                <span class="bench-value">169,000,000 ops/s</span>
+                <span class="bench-score">169.0M ops/s</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill fill-cyan" style="width: 100%;">169M ops/s</div>
-              </div>
-            </div>
-
-            <div class="bench-item">
-              <div class="bench-info">
-                <span class="bench-name">zerowire validateAndView + Lazy Access</span>
-                <span class="bench-value">6,880,000 ops/s</span>
-              </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill fill-purple" style="width: 4.1%;">6.88M</div>
+              <div class="bench-track">
+                <div class="bench-bar bar-winner" style="width: 100%;"></div>
               </div>
             </div>
 
-            <div class="bench-item">
-              <div class="bench-info">
-                <span class="bench-name">JSON.parse() Alone (Eager Allocation)</span>
-                <span class="bench-value">1,600,000 ops/s</span>
+            <div class="bench-row">
+              <div class="bench-row-header">
+                <span class="bench-label">zerowire validateAndView + Lazy Access</span>
+                <span class="bench-score">6.88M ops/s</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill fill-gray" style="width: 1.0%;">1.6M</div>
+              <div class="bench-track">
+                <div class="bench-bar bar-default" style="width: 28%;"></div>
               </div>
             </div>
 
-            <div class="bench-item">
-              <div class="bench-info">
-                <span class="bench-name">JSON.parse() + Zod Validation</span>
-                <span class="bench-value">460,000 ops/s</span>
+            <div class="bench-row">
+              <div class="bench-row-header">
+                <span class="bench-label">JSON.parse() Alone (Eager Object Allocation)</span>
+                <span class="bench-score">1.60M ops/s</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill fill-gray" style="width: 0.3%;">460k</div>
+              <div class="bench-track">
+                <div class="bench-bar bar-default" style="width: 14%;"></div>
+              </div>
+            </div>
+
+            <div class="bench-row">
+              <div class="bench-row-header">
+                <span class="bench-label">JSON.parse() + Zod Validation</span>
+                <span class="bench-score">0.46M ops/s</span>
+              </div>
+              <div class="bench-track">
+                <div class="bench-bar bar-default" style="width: 5%;"></div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Interactive Layout Visualizer -->
+      <!-- Layout Visualizer -->
       <section class="doc-section" id="visualizer">
-        <h2 class="section-title"><a href="#visualizer">Memory Layout Visualizer</a></h2>
-        <p class="section-desc">
-          zerowire automatically partitions types into a fixed-size header and dynamic tail heap, sorting fields by descending alignment (8B -> 4B -> 2B -> 1B) to eliminate internal padding holes.
+        <h2 class="section-heading"><a href="#visualizer">Memory Layout Visualizer</a></h2>
+        <p class="section-text">
+          Explore how the Rust compiler packs TypeScript interface properties into fixed headers and variable tail heaps. Fields are sorted in descending order of alignment to eliminate padding:
         </p>
 
-        <div class="visualizer-container">
-          <div class="visualizer-header">
-            <div class="preset-selector">
-              <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">SCHEMA PRESET:</span>
-              <button class="preset-btn active" data-preset="TradeExecution">TradeExecution</button>
-              <button class="preset-btn" data-preset="MarketTick">MarketTick</button>
-              <button class="preset-btn" data-preset="SensorTelemetry">SensorTelemetry</button>
+        <div class="layout-card">
+          <div class="layout-card-header">
+            <div class="preset-group">
+              <span class="preset-tag-label">SCHEMA PRESET</span>
+              <button class="preset-chip active" data-preset="TradeExecution">TradeExecution</button>
+              <button class="preset-chip" data-preset="MarketTick">MarketTick</button>
+              <button class="preset-chip" data-preset="SensorTelemetry">SensorTelemetry</button>
             </div>
-            <button class="copy-btn" id="btn-copy-schema" data-copy-target="visualizer-schema-code">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
+            <button class="btn-copy" id="btn-copy-schema" data-copy-target="visualizer-schema-code">
               <span>Copy Type</span>
             </button>
           </div>
 
-          <div class="visualizer-body">
-            <div class="visualizer-code-pane">
-              <pre><code class="code-pre" id="visualizer-schema-code"></code></pre>
+          <div class="layout-card-body">
+            <div class="layout-code-view">
+              <pre class="code-content" id="visualizer-schema-code"></pre>
             </div>
 
-            <div class="visualizer-layout-pane">
-              <div class="layout-stats">
-                <div class="stat-box">
-                  <div class="stat-label">Fixed Header</div>
-                  <div class="stat-val" id="stat-header-size">32 Bytes</div>
+            <div class="layout-inspect-view">
+              <div class="stat-pills">
+                <div class="stat-item">
+                  <div class="stat-title">Header Size</div>
+                  <div class="stat-number" id="stat-header-size">32 Bytes</div>
                 </div>
-                <div class="stat-box">
-                  <div class="stat-label">Alignment</div>
-                  <div class="stat-val" id="stat-alignment">8 Bytes</div>
+                <div class="stat-item">
+                  <div class="stat-title">Alignment</div>
+                  <div class="stat-number" id="stat-alignment">8 Bytes</div>
                 </div>
-                <div class="stat-box">
-                  <div class="stat-label">Padding Status</div>
-                  <div class="stat-val" style="font-size: 0.85rem;" id="stat-padding">2 Bytes</div>
+                <div class="stat-item">
+                  <div class="stat-title">Padding</div>
+                  <div class="stat-number" id="stat-padding">2 Bytes</div>
                 </div>
               </div>
 
-              <div style="overflow-x: auto;">
-                <table class="layout-table">
+              <div class="table-wrap">
+                <table class="specs-table">
                   <thead>
                     <tr>
                       <th>Offset</th>
@@ -304,169 +445,74 @@
         </div>
       </section>
 
-      <!-- Quick Start Section -->
-      <section class="doc-section" id="quickstart">
-        <h2 class="section-title"><a href="#quickstart">Quick Start</a></h2>
-        <p class="section-desc">
-          Write pure TypeScript interfaces and invoke the <code>compileWireCodec</code> macro. The compiler transforms call sites into high-performance byte decoders.
-        </p>
-
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>schema.ts</span></div>
-            <button class="copy-btn"><span>Copy</span></button>
-          </div>
-          <pre class="code-pre"><code><span class="kw">import</span> { compileWireCodec, <span class="kw">type</span> <span class="tp">u32</span>, <span class="kw">type</span> <span class="tp">f64</span> } <span class="kw">from</span> <span class="str">"@zerowire/runtime"</span>;
-
-<span class="kw">export interface</span> <span class="tp">TradeExecution</span> {
-  timestamp: <span class="tp">f64</span>;
-  tradeId: <span class="tp">u32</span>;
-  side: <span class="str">"BUY"</span> | <span class="str">"SELL"</span>;
-  isMaker: <span class="tp">boolean</span>;
-  symbol: <span class="tp">string</span>;
-  fills: <span class="tp">f64</span>[];
-}
-
-<span class="cm">// Replaced at compile time with the AOT codec class</span>
-<span class="kw">export const</span> TradeExecutionCodec = compileWireCodec&lt;<span class="tp">TradeExecution</span>&gt;();</code></pre>
-        </div>
-      </section>
-
-      <!-- Flyweight Views -->
-      <section class="doc-section" id="flyweight">
-        <h2 class="section-title"><a href="#flyweight">Flyweight Views</a></h2>
-        <p class="section-desc">
-          When validating incoming wire buffers, flyweight views decode primitives on fixed offsets and lazily memoize string or array fields on read.
-        </p>
-
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>server.ts</span></div>
-            <button class="copy-btn"><span>Copy</span></button>
-          </div>
-          <pre class="code-pre"><code><span class="cm">// Zero-copy validation over incoming raw network bytes</span>
-<span class="kw">const</span> view = TradeExecutionCodec.validateAndView(rawBytes);
-
-<span class="kw">if</span> (view) {
-  <span class="cm">// Primitives read directly from DataView registers</span>
-  console.log(view.timestamp, view.tradeId, view.side);
-
-  <span class="cm">// Strings decode on demand using unrolled ASCII char codes</span>
-  console.log(view.symbol);
-}</code></pre>
-        </div>
-      </section>
-
-      <!-- Binary Serialization -->
-      <section class="doc-section" id="encoding">
-        <h2 class="section-title"><a href="#encoding">Binary Serialization</a></h2>
-        <p class="section-desc">
-          Encode standard JavaScript objects directly into flat, memory-aligned binary structs in a single pass without intermediate allocations.
-        </p>
-
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>encode.ts</span></div>
-            <button class="copy-btn"><span>Copy</span></button>
-          </div>
-          <pre class="code-pre"><code><span class="kw">const</span> binary = TradeExecutionCodec.encodeBinary({
-  timestamp: Date.now(),
-  tradeId: 10420,
-  side: <span class="str">"BUY"</span>,
-  isMaker: <span class="kw">true</span>,
-  symbol: <span class="str">"BTC-USDT"</span>,
-  fills: [65000.5, 65002.0],
-});
-
-<span class="cm">// Branchless binary validation runs in 5.92 nanoseconds</span>
-<span class="kw">const</span> valid = TradeExecutionCodec.validateBinary(
-  <span class="kw">new</span> DataView(binary.buffer, binary.byteOffset, binary.byteLength)
-);</code></pre>
-        </div>
-      </section>
-
-      <!-- Minimal Perfect Hash Functions -->
-      <section class="doc-section" id="mphf">
-        <h2 class="section-title"><a href="#mphf">Minimal Perfect Hash Functions</a></h2>
-        <p class="section-desc">
-          For tagged unions and string literal enums, the Rust compiler synthesizes a Minimal Perfect Hash Function at build time:
-        </p>
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>Formula</span></div>
-          </div>
-          <pre class="code-pre"><code>h(w, L) = ((w ^ L) * MAGIC_MULTIPLIER) >>> (32 - log2(M))</code></pre>
-        </div>
-        <p class="section-desc">
-          This maps arbitrary string keys to dense array indices in three CPU instructions without string decoding or hash map lookups.
-        </p>
-      </section>
-
-      <!-- WASM SIMD Tokenizer -->
-      <section class="doc-section" id="simd">
-        <h2 class="section-title"><a href="#simd">WASM SIMD Tokenizer</a></h2>
-        <p class="section-desc">
-          For payloads exceeding 4 KB, the WebAssembly <code>v128</code> SIMD scanner scans 16 bytes per instruction, using carry-less prefix-XOR tricks to mask quote characters and populate structural tapes at over 2.5 GB/s.
-        </p>
-      </section>
-
-      <!-- Bundler Setup -->
+      <!-- Bundler Configuration -->
       <section class="doc-section" id="bundlers">
-        <h2 class="section-title"><a href="#bundlers">Bundler Setup</a></h2>
-        <p class="section-desc">
-          zerowire integrates into all modern build systems via <code>@zerowire/unplugin</code>.
+        <h2 class="section-heading"><a href="#bundlers">Bundler Configuration</a></h2>
+        <p class="section-text">
+          <code>@zerowire/unplugin</code> integrates with all standard JavaScript bundlers:
         </p>
 
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>vite.config.ts</span></div>
-            <button class="copy-btn"><span>Copy</span></button>
+        <h3 class="section-subheading">Vite</h3>
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>vite.config.ts</span>
+            <button class="btn-copy"><span>Copy</span></button>
           </div>
-          <pre class="code-pre"><code><span class="kw">import</span> { defineConfig } <span class="kw">from</span> <span class="str">"vite"</span>;
+          <pre class="code-content"><code><span class="kw">import</span> { defineConfig } <span class="kw">from</span> <span class="str">"vite"</span>;
 <span class="kw">import</span> { zerowireVite } <span class="kw">from</span> <span class="str">"@zerowire/unplugin"</span>;
 
 <span class="kw">export default</span> defineConfig({
   plugins: [zerowireVite()],
 });</code></pre>
         </div>
-      </section>
 
-      <!-- Packages -->
-      <section class="doc-section" id="packages">
-        <h2 class="section-title"><a href="#packages">Workspace Packages</a></h2>
-        <div class="cards-grid">
-          <div class="card">
-            <div class="card-title">@zerowire/runtime</div>
-            <div class="card-text">
-              Zero-dependency TypeScript runtime views, buffer ring pools, and static tape allocators.
-            </div>
+        <h3 class="section-subheading">Rollup and Rolldown</h3>
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>rollup.config.js</span>
+            <button class="btn-copy"><span>Copy</span></button>
           </div>
-          <div class="card">
-            <div class="card-title">@zerowire/unplugin</div>
-            <div class="card-text">
-              Universal build plugin supporting Vite, Rolldown, Rollup, and esbuild.
-            </div>
+          <pre class="code-content"><code><span class="kw">import</span> { zerowireRollup } <span class="kw">from</span> <span class="str">"@zerowire/unplugin"</span>;
+
+<span class="kw">export default</span> {
+  plugins: [zerowireRollup()],
+};</code></pre>
+        </div>
+
+        <h3 class="section-subheading">esbuild</h3>
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>build.js</span>
+            <button class="btn-copy"><span>Copy</span></button>
           </div>
-          <div class="card">
-            <div class="card-title">@zerowire/napi</div>
-            <div class="card-text">
-              Native Node-API Rust bindings running the Oxc compiler on Linux, macOS, and Windows.
-            </div>
-          </div>
+          <pre class="code-content"><code><span class="kw">import</span> esbuild <span class="kw">from</span> <span class="str">"esbuild"</span>;
+<span class="kw">import</span> { zerowireEsbuild } <span class="kw">from</span> <span class="str">"@zerowire/unplugin"</span>;
+
+<span class="kw">await</span> esbuild.build({
+  entryPoints: [<span class="str">"src/index.ts"</span>],
+  bundle: <span class="kw">true</span>,
+  outfile: <span class="str">"dist/bundle.js"</span>,
+  plugins: [zerowireEsbuild()],
+});</code></pre>
         </div>
       </section>
 
       <!-- Verification -->
       <section class="doc-section" id="verification">
-        <h2 class="section-title"><a href="#verification">Verification</a></h2>
-        <div class="code-block">
-          <div class="code-header">
-            <div class="code-lang"><span class="lang-dot"></span><span>bash</span></div>
-            <button class="copy-btn"><span>Copy</span></button>
+        <h2 class="section-heading"><a href="#verification">Verification</a></h2>
+        <p class="section-text">
+          Run tests and benchmarks across the workspace:
+        </p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <span>Terminal</span>
+            <button class="btn-copy"><span>Copy</span></button>
           </div>
-          <pre class="code-pre"><code><span class="cm"># Run Rust unit tests and strict clippy checks</span>
+          <pre class="code-content"><code><span class="cm"># Run Rust test suite and strict linter</span>
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
+cargo fmt --all -- --check
 
 <span class="cm"># Run TypeScript runtime tests and typechecks</span>
 pnpm test
@@ -480,24 +526,24 @@ pnpm --filter @zerowire/benchmarks bench</code></pre>
   </div>
 
   <!-- Search Modal -->
-  <div class="search-modal-backdrop" id="search-modal" role="dialog" aria-modal="true">
-    <div class="search-modal">
-      <div class="search-input-box">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="search-input" id="search-input" placeholder="Search documentation, types, and architecture...">
-        <span class="search-shortcut">ESC</span>
+        <input type="text" class="modal-text-input" id="search-input" placeholder="Search documentation, types, and guides...">
+        <span class="search-kbd">ESC</span>
       </div>
-      <ul class="search-results" id="search-results">
-        <!-- Results populated by app.js -->
+      <ul class="modal-list" id="search-results">
+        <!-- Search items populated dynamically by app.js -->
       </ul>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast" role="status" aria-live="polite">
+  <!-- Toast -->
+  <div class="toast-notice" id="toast" role="status" aria-live="polite">
     Copied to clipboard
   </div>
 

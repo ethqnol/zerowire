@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Install Command Tabs
-  const installTabs = document.querySelectorAll('.install-tab');
+  const installTabs = document.querySelectorAll('.install-tab-btn');
   const installCmd = document.getElementById('install-cmd-text');
   
   const commands = {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. Copy Buttons & Toast
-  const copyButtons = document.querySelectorAll('.copy-btn');
+  const copyButtons = document.querySelectorAll('.btn-copy');
   const toast = document.getElementById('toast');
 
   function showToast(message) {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.classList.add('show');
     setTimeout(() => {
       toast.classList.remove('show');
-    }, 2200);
+    }, 2000);
   }
 
   copyButtons.forEach(btn => {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = document.getElementById(targetId);
         textToCopy = target ? target.textContent.trim() : '';
       } else {
-        const pre = btn.closest('.code-block')?.querySelector('.code-pre');
+        const pre = btn.closest('.code-panel')?.querySelector('.code-content');
         textToCopy = pre ? pre.textContent.trim() : '';
       }
 
@@ -52,39 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(textToCopy).then(() => {
           btn.classList.add('copied');
           const originalText = btn.innerHTML;
-          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
+          btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
           showToast('Copied to clipboard');
           setTimeout(() => {
             btn.classList.remove('copied');
             btn.innerHTML = originalText;
-          }, 2000);
+          }, 1800);
         });
       }
     });
   });
 
   // 3. Benchmark Visualizer
-  const benchTabs = document.querySelectorAll('.bench-tab');
-  const benchBars = document.querySelectorAll('.bench-item');
+  const benchTabs = document.querySelectorAll('.bench-nav-btn');
+  const benchRows = document.querySelectorAll('.bench-row');
 
   const benchmarkData = {
     throughput: [
-      { name: 'zerowire Binary Validation', value: '169,000,000 ops/s', percent: 100, class: 'fill-cyan' },
-      { name: 'zerowire validateAndView + Lazy Access', value: '6,880,000 ops/s', percent: 4.1, class: 'fill-purple' },
-      { name: 'JSON.parse() Alone', value: '1,600,000 ops/s', percent: 1.0, class: 'fill-gray' },
-      { name: 'JSON.parse() + Zod Validation', value: '460,000 ops/s', percent: 0.3, class: 'fill-gray' }
+      { name: 'zerowire Binary Validation', value: '169.0M ops/s', percent: 100, isWinner: true },
+      { name: 'zerowire validateAndView + Lazy Access', value: '6.88M ops/s', percent: 28, isWinner: false },
+      { name: 'JSON.parse() Alone', value: '1.60M ops/s', percent: 14, isWinner: false },
+      { name: 'JSON.parse() + Zod Validation', value: '0.46M ops/s', percent: 5, isWinner: false }
     ],
     latency: [
-      { name: 'zerowire Binary Validation', value: '5.92 ns', percent: 100, class: 'fill-cyan' }, // 100% of efficiency
-      { name: 'zerowire validateAndView + Lazy Access', value: '145.16 ns', percent: 40, class: 'fill-purple' },
-      { name: 'JSON.parse() Alone', value: '624.59 ns', percent: 15, class: 'fill-gray' },
-      { name: 'JSON.parse() + Zod Validation', value: '2,170.00 ns', percent: 3, class: 'fill-gray' }
+      { name: 'zerowire Binary Validation', value: '5.92 ns', percent: 100, isWinner: true },
+      { name: 'zerowire validateAndView + Lazy Access', value: '145.16 ns', percent: 36, isWinner: false },
+      { name: 'JSON.parse() Alone', value: '624.59 ns', percent: 18, isWinner: false },
+      { name: 'JSON.parse() + Zod Validation', value: '2,170.00 ns', percent: 6, isWinner: false }
     ],
     memory: [
-      { name: 'zerowire Binary Validation', value: '0 B / op', percent: 100, class: 'fill-cyan' },
-      { name: 'zerowire validateAndView + Lazy Access', value: '229 B / op', percent: 30, class: 'fill-purple' },
-      { name: 'JSON.parse() Alone', value: '73 B / op', percent: 60, class: 'fill-gray' },
-      { name: 'JSON.parse() + Zod Validation', value: '2,010 B / op', percent: 4, class: 'fill-gray' }
+      { name: 'zerowire Binary Validation', value: '0 B / op', percent: 100, isWinner: true },
+      { name: 'zerowire validateAndView + Lazy Access', value: '229 B / op', percent: 35, isWinner: false },
+      { name: 'JSON.parse() Alone', value: '73 B / op', percent: 62, isWinner: false },
+      { name: 'JSON.parse() + Zod Validation', value: '2,010 B / op', percent: 8, isWinner: false }
     ]
   };
 
@@ -92,17 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = benchmarkData[metric];
     if (!data) return;
 
-    benchBars.forEach((item, index) => {
+    benchRows.forEach((row, index) => {
       const entry = data[index];
       if (!entry) return;
 
-      const valEl = item.querySelector('.bench-value');
-      const fillEl = item.querySelector('.bench-bar-fill');
+      const scoreEl = row.querySelector('.bench-score');
+      const barEl = row.querySelector('.bench-bar');
 
-      if (valEl) valEl.textContent = entry.value;
-      if (fillEl) {
-        fillEl.className = `bench-bar-fill ${entry.class}`;
-        fillEl.style.width = `${Math.max(entry.percent, 3)}%`;
+      if (scoreEl) scoreEl.textContent = entry.value;
+      if (barEl) {
+        barEl.className = `bench-bar ${entry.isWinner ? 'bar-winner' : 'bar-default'}`;
+        barEl.style.width = `${Math.max(entry.percent, 3)}%`;
       }
     });
   }
@@ -111,48 +111,47 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => {
       benchTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      const metric = tab.dataset.metric;
-      updateBenchmarkView(metric);
+      updateBenchmarkView(tab.dataset.metric);
     });
   });
 
   // 4. Interactive Struct Layout Visualizer
   const presets = {
     TradeExecution: {
-      code: `type u32 = number & { __brand: "u32" };\n\nexport interface TradeExecution {\n  timestamp: number;     // 8B f64\n  tradeId: u32;          // 4B u32\n  side: "BUY" | "SELL";  // 1B enum\n  isMaker: boolean;      // 1B boolean\n  symbol: string;        // 8B (u32 off, u32 len)\n  fills: number[];       // 8B (u32 off, u32 len)\n}`,
+      code: `type u32 = number & { __brand: "u32" };\n\nexport interface TradeExecution {\n  timestamp: number;     // 8B f64 (descending alignment)\n  tradeId: u32;          // 4B u32\n  symbol: string;        // 8B (u32 offset, u32 len)\n  fills: number[];       // 8B (u32 offset, u32 len)\n  side: "BUY" | "SELL";  // 1B enum (u8)\n  isMaker: boolean;      // 1B boolean (u8)\n}`,
       headerSize: 32,
       alignment: 8,
       padding: '2 Bytes (aligned to 8B)',
       rows: [
         { offset: '[0x00..0x07]', field: 'timestamp', type: 'f64 (IEEE-754)', size: '8B' },
-        { offset: '[0x08..0x0B]', field: 'tradeId', type: 'u32 (unsigned)', size: '4B' },
+        { offset: '[0x08..0x0B]', field: 'tradeId', type: 'u32 (unsigned int)', size: '4B' },
         { offset: '[0x0C..0x13]', field: 'symbol', type: 'string descriptor', size: '8B' },
-        { offset: '[0x14..0x1B]', field: 'fills', type: 'array descriptor', size: '8B' },
+        { offset: '[0x14..0x1B]', field: 'fills', type: 'f64[] descriptor', size: '8B' },
         { offset: '[0x1C]', field: 'side', type: 'enum (2 variants)', size: '1B' },
         { offset: '[0x1D]', field: 'isMaker', type: 'boolean', size: '1B' },
-        { offset: '[0x1E..0x1F]', field: '<padding>', type: 'zero-filled alignment pad', size: '2B' }
+        { offset: '[0x1E..0x1F]', field: '<padding>', type: 'alignment pad', size: '2B' }
       ]
     },
     MarketTick: {
-      code: `type u32 = number & { __brand: "u32" };\n\nexport interface MarketTick {\n  price: number;              // 8B f64\n  volume: u32;                // 4B u32\n  exchange: "NYSE"|"NASDAQ"|"CME"; // 1B enum\n  symbol: string;             // 8B (u32 off, u32 len)\n}`,
+      code: `type u32 = number & { __brand: "u32" };\n\nexport interface MarketTick {\n  price: number;              // 8B f64\n  volume: u32;                // 4B u32\n  symbol: string;             // 8B (u32 offset, u32 len)\n  exchange: "NYSE"|"NASDAQ"|"CME"; // 1B enum\n}`,
       headerSize: 24,
       alignment: 8,
       padding: '3 Bytes (aligned to 8B)',
       rows: [
         { offset: '[0x00..0x07]', field: 'price', type: 'f64 (IEEE-754)', size: '8B' },
-        { offset: '[0x08..0x0B]', field: 'volume', type: 'u32 (unsigned)', size: '4B' },
+        { offset: '[0x08..0x0B]', field: 'volume', type: 'u32 (unsigned int)', size: '4B' },
         { offset: '[0x0C..0x13]', field: 'symbol', type: 'string descriptor', size: '8B' },
         { offset: '[0x14]', field: 'exchange', type: 'enum (3 variants)', size: '1B' },
-        { offset: '[0x15..0x17]', field: '<padding>', type: 'zero-filled alignment pad', size: '3B' }
+        { offset: '[0x15..0x17]', field: '<padding>', type: 'alignment pad', size: '3B' }
       ]
     },
     SensorTelemetry: {
-      code: `type u32 = number & { __brand: "u32" };\ntype f32 = number & { __brand: "f32" };\n\nexport interface SensorTelemetry {\n  deviceId: u32;    // 4B\n  voltage: f32;     // 4B\n  current: f32;     // 4B\n  temperature: f32; // 4B\n  location: string; // 8B (u32 off, u32 len)\n}`,
+      code: `type u32 = number & { __brand: "u32" };\ntype f32 = number & { __brand: "f32" };\n\nexport interface SensorTelemetry {\n  deviceId: u32;    // 4B\n  voltage: f32;     // 4B\n  current: f32;     // 4B\n  temperature: f32; // 4B\n  location: string; // 8B (u32 offset, u32 len)\n}`,
       headerSize: 24,
       alignment: 4,
       padding: '0 Bytes (perfect packing)',
       rows: [
-        { offset: '[0x00..0x03]', field: 'deviceId', type: 'u32 (unsigned)', size: '4B' },
+        { offset: '[0x00..0x03]', field: 'deviceId', type: 'u32 (unsigned int)', size: '4B' },
         { offset: '[0x04..0x07]', field: 'voltage', type: 'f32 (single precision)', size: '4B' },
         { offset: '[0x08..0x0B]', field: 'current', type: 'f32 (single precision)', size: '4B' },
         { offset: '[0x0C..0x0F]', field: 'temperature', type: 'f32 (single precision)', size: '4B' },
@@ -161,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const presetButtons = document.querySelectorAll('.preset-btn');
+  const presetButtons = document.querySelectorAll('.preset-chip');
   const schemaCodeEl = document.getElementById('visualizer-schema-code');
   const headerSizeEl = document.getElementById('stat-header-size');
   const alignmentEl = document.getElementById('stat-alignment');
@@ -180,10 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tableBody) {
       tableBody.innerHTML = data.rows.map(r => `
         <tr>
-          <td class="offset-col">${r.offset}</td>
-          <td class="field-col">${r.field}</td>
-          <td class="type-col">${r.type}</td>
-          <td class="size-col">${r.size}</td>
+          <td class="cell-offset">${r.offset}</td>
+          <td class="cell-field">${r.field}</td>
+          <td class="cell-type">${r.type}</td>
+          <td class="cell-size">${r.size}</td>
         </tr>
       `).join('');
     }
@@ -197,26 +196,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Render initial preset
   renderPreset('TradeExecution');
 
   // 5. Search Modal Logic
-  const searchTrigger = document.querySelector('.search-trigger');
+  const searchTrigger = document.getElementById('btn-search-trigger');
   const searchModal = document.getElementById('search-modal');
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
 
   const searchIndex = [
-    { title: 'Overview', desc: 'Zero-parse AOT TypeScript validator and binary codec architecture', href: '#overview' },
+    { title: 'Overview', desc: 'AOT binary codec and branchless validator architecture', href: '#overview' },
     { title: 'Benchmarks', desc: 'Throughput and latency comparison vs Zod and JSON.parse', href: '#benchmarks' },
     { title: 'Core Features', desc: 'Zero tsc dependency, branchless execution, struct packing', href: '#features' },
-    { title: 'Interactive Layout Visualizer', desc: 'Explore memory layouts, offsets, and packing diagrams', href: '#visualizer' },
-    { title: 'Quick Start', desc: 'Define TypeScript schemas and compile wire codecs', href: '#quickstart' },
-    { title: 'Lazy Flyweight Views', desc: 'Zero-copy field access directly from raw Uint8Array buffers', href: '#flyweight' },
+    { title: 'Quick Start', desc: 'Declaring TypeScript schemas and compiling wire codecs', href: '#quickstart' },
+    { title: 'HTTP and Web Framework Guide', desc: 'Validating raw request arrayBuffer slices in Hono and Fastify', href: '#http-guide' },
+    { title: 'Worker Thread Guide', desc: 'Zero-copy messaging across threads with SharedArrayBuffer', href: '#worker-guide' },
+    { title: 'Memory Layout Visualizer', desc: 'Interactive struct packing and alignment calculation', href: '#visualizer' },
+    { title: 'Flyweight Views', desc: 'Lazy accessor memoization and unrolled short string decoding', href: '#flyweight' },
     { title: 'Binary Encoding', desc: 'Single-pass serialization directly into typed binary buffers', href: '#encoding' },
-    { title: 'Minimal Perfect Hashing', desc: 'O(1) variant and tagged union dispatch without string comparisons', href: '#mphf' },
-    { title: 'Bundler Plugins', desc: 'Vite, Rolldown, Rollup, and esbuild integration', href: '#bundlers' },
-    { title: 'WASM SIMD Scanner', desc: '128-bit SIMD structural token scanner with prefix-XOR masking', href: '#simd' }
+    { title: 'Minimal Perfect Hashing', desc: 'O(1) variant and tagged union dispatch without string lookups', href: '#mphf' },
+    { title: 'Bundler Setup', desc: 'Vite, Rolldown, Rollup, and esbuild integration', href: '#bundlers' },
+    { title: 'WASM SIMD Tokenizer', desc: '128-bit SIMD structural token scanner with prefix-XOR masking', href: '#simd' }
   ];
 
   function openSearch() {
@@ -242,15 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     if (filtered.length === 0) {
-      searchResults.innerHTML = `<li style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">No results found for "${query}"</li>`;
+      searchResults.innerHTML = `<li style="padding: 1rem; text-align: center; color: var(--text-subtle); font-size: 0.82rem;">No results found for "${query}"</li>`;
       return;
     }
 
     searchResults.innerHTML = filtered.map(item => `
-      <li class="search-result-item">
+      <li class="modal-item">
         <a href="${item.href}">
-          <div class="search-result-title">${item.title}</div>
-          <div class="search-result-desc">${item.desc}</div>
+          <div class="modal-item-title">${item.title}</div>
+          <div class="modal-item-desc">${item.desc}</div>
         </a>
       </li>
     `).join('');
@@ -286,14 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. ScrollSpy for Sidebar Active State
+  // 6. ScrollSpy
   const sections = document.querySelectorAll('.doc-section');
-  const sidebarLinks = document.querySelectorAll('.sidebar-item a');
+  const sidebarLinks = document.querySelectorAll('.sidebar-link a');
 
   window.addEventListener('scroll', () => {
     let currentId = '';
     sections.forEach(section => {
-      const top = section.offsetTop - 120;
+      const top = section.offsetTop - 100;
       if (window.scrollY >= top) {
         currentId = section.getAttribute('id');
       }
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentId) {
       sidebarLinks.forEach(link => {
-        const item = link.closest('.sidebar-item');
+        const item = link.closest('.sidebar-link');
         if (link.getAttribute('href') === `#${currentId}`) {
           item?.classList.add('active');
         } else {
