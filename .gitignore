@@ -25,3 +25,5 @@ Thumbs.db
 bench-results/
 *.profdata
 *.profraw
+
+PLAN.md

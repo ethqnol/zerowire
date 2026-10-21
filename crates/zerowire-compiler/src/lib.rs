@@ -1,4 +1,4 @@
-//! `ox-compiler`: Ahead-of-Time TypeScript type-to-wire compiler and zero-copy binary codec.
+//! `zerowire-compiler`: Ahead-of-Time TypeScript type-to-wire compiler and zero-copy binary codec.
 //!
 //! Powered by `oxc_parser`, `oxc_resolver`, and `oxc_span`.
 

@@ -2,10 +2,10 @@
 
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-use ox_compiler::codegen::codec::compile_type_to_codec;
-use ox_compiler::ir::TypeIR;
-use ox_compiler::layout::packer::generate_layout_diagram;
-use ox_compiler::parser::extractor::AstTypeContext;
+use zerowire_compiler::codegen::codec::compile_type_to_codec;
+use zerowire_compiler::ir::TypeIR;
+use zerowire_compiler::layout::packer::generate_layout_diagram;
+use zerowire_compiler::parser::extractor::AstTypeContext;
 
 /// Output result returned to JavaScript / TypeScript bundlers from AOT compilation.
 #[napi(object)]
@@ -97,5 +97,5 @@ pub fn compile_wire_codec(
 
 #[napi]
 pub fn napi_version() -> String {
-    ox_compiler::version().to_string()
+    zerowire_compiler::version().to_string()
 }

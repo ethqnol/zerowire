@@ -48,12 +48,12 @@ export interface WireCodec<T> {
 
 /**
  * Compile-time macro marking a TypeScript type for AOT validator and binary codec lowering.
- * Transformed at build time by `@ox-wire/unplugin`.
+ * Transformed at build time by `@zerowire/unplugin`.
  */
 export function compileWireCodec<T>(): WireCodec<T> {
   throw new Error(
-    "[@ox-wire] Macro `compileWireCodec<T>()` was not transformed at build time. " +
-      "Ensure `@ox-wire/unplugin` is registered in your Vite, Rolldown, esbuild, or Rollup configuration."
+    "[@zerowire] Macro `compileWireCodec<T>()` was not transformed at build time. " +
+      "Ensure `@zerowire/unplugin` is registered in your Vite, Rolldown, esbuild, or Rollup configuration."
   );
 }
 
@@ -67,6 +67,6 @@ export function compileCodec<T>(): WireCodec<T> {
  */
 export function createFlyweight<T>(_buffer: ArrayBufferView | ArrayBuffer, _offset?: number): T {
   throw new Error(
-    "[@ox-wire] Macro `createFlyweight<T>()` was not transformed at build time."
+    "[@zerowire] Macro `createFlyweight<T>()` was not transformed at build time."
   );
 }

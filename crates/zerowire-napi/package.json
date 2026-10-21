@@ -1,7 +1,7 @@
 {
-  "name": "@ox-wire/napi",
+  "name": "@zerowire/napi",
   "version": "0.1.0",
-  "description": "N-API bindings for ox-compiler AOT TypeScript validator and binary codec",
+  "description": "N-API bindings for zerowire AOT TypeScript validator and binary codec",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {

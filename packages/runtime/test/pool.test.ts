@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { defaultTapePool, defaultBufferPool, isAsciiWord32, isAsciiWord64 } from "../src/index.js";
 
-describe("@ox-wire/runtime", () => {
+describe("@zerowire/runtime", () => {
   it("acquires tapes from StaticTapePool without throwing", () => {
     const t1 = defaultTapePool.acquire();
     const t2 = defaultTapePool.acquire();

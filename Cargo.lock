@@ -686,44 +686,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
-name = "ox-compiler"
-version = "0.1.0"
-dependencies = [
- "indexmap",
- "insta",
- "oxc_allocator",
- "oxc_ast",
- "oxc_diagnostics",
- "oxc_parser",
- "oxc_resolver",
- "oxc_span",
- "proptest",
- "rustc-hash",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "ox-napi"
-version = "0.1.0"
-dependencies = [
- "napi",
- "napi-build",
- "napi-derive",
- "ox-compiler",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "ox-wasm-simd"
-version = "0.1.0"
-dependencies = [
- "proptest",
-]
-
-[[package]]
 name = "oxc_allocator"
 version = "0.155.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1724,6 +1686,44 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 3.0.9",
+]
+
+[[package]]
+name = "zerowire-compiler"
+version = "0.1.0"
+dependencies = [
+ "indexmap",
+ "insta",
+ "oxc_allocator",
+ "oxc_ast",
+ "oxc_diagnostics",
+ "oxc_parser",
+ "oxc_resolver",
+ "oxc_span",
+ "proptest",
+ "rustc-hash",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
+name = "zerowire-napi"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "serde",
+ "serde_json",
+ "zerowire-compiler",
+]
+
+[[package]]
+name = "zerowire-wasm-simd"
+version = "0.1.0"
+dependencies = [
+ "proptest",
 ]
 
 [[package]]

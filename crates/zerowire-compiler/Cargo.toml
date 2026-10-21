@@ -1,5 +1,5 @@
 [package]
-name = "ox-compiler"
+name = "zerowire-compiler"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true

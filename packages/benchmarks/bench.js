@@ -1,8 +1,8 @@
 import { run, bench, group } from "mitata";
 import { z } from "zod";
-import { compileWireCodec } from "@ox-wire/napi";
+import { compileWireCodec } from "@zerowire/napi";
 
-// 1. Compile MarketTick with ox-wire
+// 1. Compile MarketTick with zerowire
 const tsDefinition = `
   type u32 = number & { __brand: "u32" };
   export interface MarketTick {
@@ -40,7 +40,7 @@ const sampleObj = {
 const jsonString = JSON.stringify(sampleObj);
 const utf8Bytes = new TextEncoder().encode(jsonString);
 
-// Encode into binary format using ox-wire
+// Encode into binary format using zerowire
 const binaryBuffer = MarketTickCodec.encodeBinary(sampleObj);
 const binaryView = new DataView(binaryBuffer.buffer, binaryBuffer.byteOffset, binaryBuffer.byteLength);
 
@@ -61,11 +61,11 @@ group("Validation & Deserialization Throughput", () => {
     return JSON.parse(jsonString);
   });
 
-  bench("ox-wire Binary Validation (Zero Heap Allocations)", () => {
+  bench("zerowire Binary Validation (Zero Heap Allocations)", () => {
     return MarketTickCodec.validateBinary(binaryView);
   });
 
-  bench("ox-wire validateAndView + Lazy Access (price, exchange)", () => {
+  bench("zerowire validateAndView + Lazy Access (price, exchange)", () => {
     const view = MarketTickCodec.validateAndView(binaryBuffer);
     return view.price + (view.exchange === "CME" ? 1 : 0);
   });

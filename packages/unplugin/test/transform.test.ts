@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { unplugin } from "../src/index.js";
 
-describe("@ox-wire/unplugin", () => {
+describe("@zerowire/unplugin", () => {
   it("transforms compileWireCodec macro call into compiled JS code", () => {
     const plugin: any = unplugin.raw({}, {} as any);
     const sourceCode = `

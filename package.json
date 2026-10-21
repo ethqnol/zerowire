@@ -1,5 +1,5 @@
 {
-  "name": "oxbt",
+  "name": "zerowire",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,12 +10,12 @@
     "typecheck": "pnpm -r typecheck",
     "lint": "cargo clippy --workspace --all-targets -- -D warnings && cargo fmt --all -- --check",
     "fmt": "cargo fmt --all",
-    "bench": "pnpm --filter @ox-wire/benchmarks bench"
+    "bench": "pnpm --filter @zerowire/benchmarks bench"
   },
   "devDependencies": {
-    "@ox-wire/napi": "workspace:*",
-    "@ox-wire/runtime": "workspace:*",
     "@types/node": "^22.13.0",
+    "@zerowire/napi": "workspace:*",
+    "@zerowire/runtime": "workspace:*",
     "typescript": "^5.8.0",
     "vitest": "^3.0.0"
   }

@@ -20,9 +20,9 @@ We are building an Ahead-of-Time (AOT) TypeScript type-to-wire compiler and zero
 
 ```text
 ├── crates/
-│   ├── ox-compiler/       # Core Rust crate: oxc AST -> TypeIR -> MPHF & Layout -> JS/WASM Codegen
-│   ├── ox-wasm-simd/      # Rust wasm32-unknown-unknown crate for v128 SIMD structural scanning
-│   └── ox-napi/           # napi-rs bindings exposing the compiler to Node/Bun/Deno
+│   ├── zerowire-compiler/       # Core Rust crate: oxc AST -> TypeIR -> MPHF & Layout -> JS/WASM Codegen
+│   ├── zerowire-wasm-simd/      # Rust wasm32-unknown-unknown crate for v128 SIMD structural scanning
+│   └── zerowire-napi/           # napi-rs bindings exposing the compiler to Node/Bun/Deno
 ├── packages/
 │   ├── runtime/           # Zero-dependency TS runtime (Flyweight base views, static tape pools)
 │   ├── unplugin/          # Vite, Rolldown, esbuild, Rollup, Webpack, and Bun build plugins
@@ -37,9 +37,9 @@ We are building an Ahead-of-Time (AOT) TypeScript type-to-wire compiler and zero
 * **Run Rust Unit & Snapshot Tests:** `cargo test --workspace`
 * **Lint Rust (Strict):** `cargo clippy --workspace --all-targets -- -D warnings`
 * **Format Rust:** `cargo fmt --all -- --check`
-* **Build NAPI Binding:** `pnpm --filter @ox-wire/napi build`
+* **Build NAPI Binding:** `pnpm --filter @zerowire/napi build`
 * **Run JS/TS Runtime & Integration Tests:** `pnpm test`
-* **Run Benchmarks:** `pnpm --filter @ox-wire/benchmarks bench`
+* **Run Benchmarks:** `pnpm --filter @zerowire/benchmarks bench`
 
 ---
 
@@ -89,7 +89,7 @@ Comments must explain **why** a decision was made, **what** memory layout or bit
    //! [0x0C..0x13] symbol:    (u32 offset, u32 len)
    ```
 3. **Codegen Templates:** Inside Rust functions that emit JS or WASM instructions, place a block comment above the generator showing a concrete example of the target JS/WASM output.
-4. **Safety Blocks (`unsafe`):** Any `unsafe` block in Rust (e.g., inside `ox-wasm-simd` `v128` intrinsics or unaligned pointer reads) **must** be preceded by a `// SAFETY:` comment proving why bounds and alignment preconditions are guaranteed prior to entry.
+4. **Safety Blocks (`unsafe`):** Any `unsafe` block in Rust (e.g., inside `zerowire-wasm-simd` `v128` intrinsics or unaligned pointer reads) **must** be preceded by a `// SAFETY:` comment proving why bounds and alignment preconditions are guaranteed prior to entry.
 
 ### 4.2 What NOT to Comment
 * Do not leave AI narration comments (e.g., `// Here we updated the function as requested`, `// Step 1: loop over items`).
@@ -160,7 +160,7 @@ All commit messages must follow the [Conventional Commits](https://www.conventio
 * `mphf` (Compile-time Minimal Perfect Hash generation)
 * `codegen-js` (JS `DataView`, SWAR, & Flyweight class emission)
 * `codegen-wasm` (WebAssembly `v128` SIMD structural scanner)
-* `runtime` (`@ox-wire/runtime` TypeScript package)
+* `runtime` (`@zerowire/runtime` TypeScript package)
 * `unplugin` (Vite/Rolldown/esbuild/Bun bundler plugins)
 
 #### Example Commit Message:

@@ -1,17 +1,17 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/ox-compiler",
-    "crates/ox-wasm-simd",
-    "crates/ox-napi",
+    "crates/zerowire-compiler",
+    "crates/zerowire-wasm-simd",
+    "crates/zerowire-napi",
 ]
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
-authors = ["oxbt contributors"]
+authors = ["zerowire contributors"]
 license = "MIT"
-repository = "https://github.com/oxbt/oxbt"
+repository = "https://github.com/zerowire/zerowire"
 
 [workspace.dependencies]
 oxc_parser = "0.155.0"

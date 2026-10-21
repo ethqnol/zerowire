@@ -1,5 +1,5 @@
 [package]
-name = "ox-napi"
+name = "zerowire-napi"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 [dependencies]
 napi = { version = "3.14.2", default-features = false, features = ["napi4", "serde-json"] }
 napi-derive = "3.6.12"
-ox-compiler = { path = "../ox-compiler" }
+zerowire-compiler = { path = "../zerowire-compiler" }
 serde.workspace = true
 serde_json.workspace = true
 

@@ -1,7 +1,7 @@
 {
-  "name": "@ox-wire/runtime",
+  "name": "@zerowire/runtime",
   "version": "0.1.0",
-  "description": "Zero-dependency runtime for oxbt zero-copy flyweight views and buffer pools",
+  "description": "Zero-dependency runtime for zerowire zero-copy flyweight views and buffer pools",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

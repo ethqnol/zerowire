@@ -8,15 +8,15 @@ importers:
 
   .:
     devDependencies:
-      '@ox-wire/napi':
-        specifier: workspace:*
-        version: link:crates/ox-napi
-      '@ox-wire/runtime':
-        specifier: workspace:*
-        version: link:packages/runtime
       '@types/node':
         specifier: ^22.13.0
         version: 22.20.5
+      '@zerowire/napi':
+        specifier: workspace:*
+        version: link:crates/zerowire-napi
+      '@zerowire/runtime':
+        specifier: workspace:*
+        version: link:packages/runtime
       typescript:
         specifier: ^5.8.0
         version: 5.9.3
@@ -24,7 +24,7 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7(@types/node@22.20.5)
 
-  crates/ox-napi:
+  crates/zerowire-napi:
     devDependencies:
       '@napi-rs/cli':
         specifier: ^3.0.0
@@ -32,10 +32,10 @@ importers:
 
   packages/benchmarks:
     dependencies:
-      '@ox-wire/napi':
+      '@zerowire/napi':
         specifier: workspace:*
-        version: link:../../crates/ox-napi
-      '@ox-wire/runtime':
+        version: link:../../crates/zerowire-napi
+      '@zerowire/runtime':
         specifier: workspace:*
         version: link:../runtime
       mitata:
@@ -56,16 +56,16 @@ importers:
 
   packages/unplugin:
     dependencies:
-      '@ox-wire/runtime':
+      '@zerowire/runtime':
         specifier: workspace:*
         version: link:../runtime
       unplugin:
         specifier: ^2.2.0
         version: 2.3.11
     devDependencies:
-      '@ox-wire/napi':
+      '@zerowire/napi':
         specifier: workspace:*
-        version: link:../../crates/ox-napi
+        version: link:../../crates/zerowire-napi
       typescript:
         specifier: ^5.8.0
         version: 5.9.3

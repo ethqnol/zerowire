@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { compileWireCodec } from "@ox-wire/napi";
+import { compileWireCodec } from "@zerowire/napi";
 
 describe("End-to-End AOT Codec Integration", () => {
   it("compiles, validates, and lazy-decodes TradeExecution flyweight view", async () => {

@@ -1,5 +1,5 @@
 {
-  "name": "@ox-wire/benchmarks",
+  "name": "@zerowire/benchmarks",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,8 +7,8 @@
     "bench": "node bench.js"
   },
   "dependencies": {
-    "@ox-wire/napi": "workspace:*",
-    "@ox-wire/runtime": "workspace:*",
+    "@zerowire/napi": "workspace:*",
+    "@zerowire/runtime": "workspace:*",
     "mitata": "^1.0.34",
     "zod": "^3.24.2"
   }
